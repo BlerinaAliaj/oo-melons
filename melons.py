@@ -1,6 +1,11 @@
 """This file should have our order classes in it."""
 
 import random
+# import datetime
+# now = datetime.datetime.now()
+# now.weekday() >>> will give day of the week in number; Mon-Friday (0-4)
+# now.hour() >>> this will give 24hour time
+
 
 
 class AbstractMelonOrder(object):
