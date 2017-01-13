@@ -1,11 +1,9 @@
 """This file should have our order classes in it."""
 
 import random
-# import datetime
-# now = datetime.datetime.now()
-# now.weekday() >>> will give day of the week in number; Mon-Friday (0-4)
-# now.hour() >>> this will give 24hour time
+import datetime
 
+MAX_MELONS = 100
 
 
 class AbstractMelonOrder(object):
@@ -13,6 +11,9 @@ class AbstractMelonOrder(object):
 
     def __init__(self, species, qty, tax, order_type):
         """Initialize melon order attributes"""
+
+        if qty > MAX_MELONS:
+            raise TooManyMelonsError
 
         self.species = species
         self.qty = qty
@@ -24,6 +25,15 @@ class AbstractMelonOrder(object):
         """Generates random price between 5 to 9 inclusive."""
 
         base_price = random.randint(5, 9)
+        print base_price
+
+        now = datetime.datetime.now()
+        weekday = now.weekday()     # this will be an integer; Mon-Friday(0-4)
+        hour = now.hour             # this will give 24hour time
+
+        if weekday in range(0, 5) and hour in range(8, 11):
+            base_price = base_price + 4
+
         return base_price
 
     def get_total(self):
@@ -41,6 +51,14 @@ class AbstractMelonOrder(object):
         """Set shipped to true."""
 
         self.shipped = True
+
+
+class TooManyMelonsError(ValueError):
+    """Exceptions raised when quantity exceeds maximum limit."""
+
+    def __init__(self):
+        """Initialize error attributes"""
+        super(TooManyMelonsError, self).__init__("TooManyMelonsError")
 
 
 class DomesticMelonOrder(AbstractMelonOrder):
